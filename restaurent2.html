@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Rustic Spoon - Authentic Italian Cuisine">
+    <title>The Rustic Spoon | Authentic Italian</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --primary-color: #d35400; /* Rustic Orange */
+            --secondary-color: #2c3e50; /* Dark Blue-Grey */
+            --accent-color: #e67e22;
+            --light-bg: #f9f9f9;
+            --dark-bg: #1a1a1a;
+            --text-color: #333;
+            --white: #ffffff;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden; /* FIX: Prevents horizontal scroll/hidden content */
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            overflow-x: hidden; /* FIX: Double safety for mobile overflow */
+            width: 100%;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto; /* FIX: Ensures images don't stretch */
+            display: block;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%; /* FIX: Ensures container fits screen */
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-primary, .btn-secondary, .btn-nav {
+            display: inline-block;
+            padding: 12px 25px; /* Slightly larger touch target for mobile */
+            border-radius: 5px;
+            font-weight: 700;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--white);
+            color: var(--text-color);
+        }
+
+        .btn-nav {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 8px 20px;
+        }
+
+        .btn-nav:hover {
+            background-color: var(--accent-color);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar {
+            background: var(--white);
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem; /* Slightly smaller for mobile safety */
+            font-weight: 700;
+            color: var(--primary-color);
+            z-index: 1001; /* Keeps logo above mobile menu */
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-left: 25px;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Mobile Hamburger Menu */
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            transition: var(--transition);
+            background-color: var(--secondary-color);
+        }
+
+        /* Mobile Menu Animation Classes */
+        .menu-toggle.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .menu-toggle.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .menu-toggle.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1514362545857-3bc16549766b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            width: 100%;
+        }
+
+        .hero-content {
+            padding: 0 15px; /* FIX: Padding prevents text hitting edges on small phones */
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-img img {
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            width: 100%;
+        }
+
+        .about-text h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            margin-top: 20px;
+        }
+
+        .about-features li {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .about-features i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        /* --- MENU SECTION --- */
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* FIX: Improved grid wrapping */
+            gap: 30px;
+        }
+
+        .menu-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .menu-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .menu-info {
+            padding: 20px;
+        }
+
+        .menu-info h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .menu-info .price {
+            display: block;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* --- RESERVATION SECTION --- */
+        .reservation-section {
+            background: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .reservation-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+        }
+
+        .reservation-box {
+            position: relative;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            width: 100%; /* FIX: Keeps box inside container */
+        }
+
+        .reservation-box h2 {
+            font-family: var(--font-heading);
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+        }
+
+        .reservation-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .reservation-form input, 
+        .reservation-form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background: #fff; /* iOS fix */
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--dark-bg);
+            color: #ccc;
+            padding-top: 60px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            padding-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--white);
+            margin-bottom: 20px;
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+
+        .copyright {
+            border-top: 1px solid #333;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES (FIXED FOR MOBILE) --- */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 0 15px; /* FIX: Ensure padding isn't too wide on small screens */
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px; /* Aligned with navbar height */
+                flex-direction: column;
+                background-color: var(--white);
+                width: 100%;
+                height: 90vh; /* Takes up rest of screen */
+                text-align: center;
+                transition: 0.3s;
+                padding: 40px 0;
+                overflow-y: auto; /* Allows scrolling inside menu if it's too long */
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-link {
+                margin: 20px 0;
+                display: block;
+                font-size: 1.2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem; /* FIX: Smaller font for mobile to prevent overflow */
+            }
+            
+            .hero-btns {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .btn-secondary {
+                margin-left: 0; /* Stack buttons nicely */
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-img {
+                order: -1; /* Puts image on top on mobile */
+            }
+
+            .reservation-box {
+                padding: 20px; /* Reduced padding for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">The Rustic Spoon <i class="fas fa-utensils"></i></a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#menu" class="nav-link">Menu</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#reservation" class="btn-nav nav-link" style="margin-left: 0; color: white;">Book a Table</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Taste the Soul of Italy</h1>
+            <p>Hand-crafted pasta, wood-fired pizza, and locally sourced ingredients.</p>
+            <div class="hero-btns">
+                <a href="#menu" class="btn-primary">View Menu</a>
+                <a href="#reservation" class="btn-secondary">Book Now</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section-padding">
+        <div class="container about-container">
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Chef Cooking">
+            </div>
+            <div class="about-text">
+                <h2>Our Story</h2>
+                <p>Founded in 2015, The Rustic Spoon began with a simple mission: to bring the authentic flavors of Naples to your table. Our head chef, Marco, insists on using only the freshest organic ingredients, sourced directly from local farmers.</p>
+                <ul class="about-features">
+                    <li><i class="fas fa-check-circle"></i> Fresh, Organic Produce</li>
+                    <li><i class="fas fa-check-circle"></i> Authentic Wood-Fired Oven</li>
+                    <li><i class="fas fa-check-circle"></i> Award-Winning Wine List</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="menu-section section-padding">
+        <div class="container">
+            <h2 class="section-title">Our Favorites</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1595295333158-4742f28fbd85?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Pasta Dish">
+                    <div class="menu-info">
+                        <h3>Truffle Carbonara</h3>
+                        <p>House-made spaghetti, guanciale, pecorino, black truffle.</p>
+                        <span class="price">$24</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Pizza">
+                    <div class="menu-info">
+                        <h3>Margherita Verace</h3>
+                        <p>San Marzano tomatoes, buffalo mozzarella, fresh basil.</p>
+                        <span class="price">$18</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Dessert">
+                    <div class="menu-info">
+                        <h3>Classic Tiramisu</h3>
+                        <p>Espresso-soaked ladyfingers, mascarpone cream, cocoa.</p>
+                        <span class="price">$12</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 2rem;">
+                <a href="#" class="btn-primary">See Full Menu</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservation" class="reservation-section section-padding">
+        <div class="container">
+            <div class="reservation-box">
+                <h2>Make a Reservation</h2>
+                <form class="reservation-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="time" required>
+                    </div>
+                    <div class="form-group">
+                        <select>
+                            <option>2 Guests</option>
+                            <option>3 Guests</option>
+                            <option>4 Guests</option>
+                            <option>5+ Guests</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary btn-block">Book Table</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h4>The Rustic Spoon</h4>
+                <p>Authentic Italian flavors served with passion and tradition.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Hours</h4>
+                <p>Mon-Fri: 11am - 10pm</p>
+                <p>Sat-Sun: 10am - 11pm</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p>123 Pasta Lane, Food City</p>
+                <p>(555) 123-4567</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 The Rustic Spoon. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu');
+            const navMenu = document.querySelector('.nav-menu');
+
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                    // Toggle hamburger animation state
+                    mobileMenuBtn.classList.toggle('active');
+                });
+            }
+
+            // --- Close Mobile Menu when clicking a link ---
+            document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
+            }));
+
+            // --- Simple Reservation Form Alert ---
+            const reservationForm = document.querySelector('.reservation-form');
+            
+            if(reservationForm) {
+                reservationForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert('Thank you! Your table request has been received.');
+                    reservationForm.reset();
+                });
+            }
+
+            // --- Sticky Navbar Effect ---
+            const navbar = document.querySelector('.navbar');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.style.boxShadow = "0 2px 10px rgba(0,0,0,0.2)";
+                } else {
+                    navbar.style.boxShadow = "0 2px 10px rgba(0,0,0,0.1)";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
